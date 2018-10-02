@@ -656,11 +656,11 @@
                     expect(window.confirm).toHaveBeenCalled();
                     expect(contact.removeFromRoster).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq type='set' xmlns='jabber:client'>"+
-                            "<query xmlns='jabber:iq:roster'>"+
-                                "<item jid='suleyman.van.beusichem@localhost' subscription='remove'/>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq type="set" xmlns="jabber:client">`+
+                            `<query xmlns="jabber:iq:roster">`+
+                                `<item jid="suleyman.van.beusichem@localhost" subscription="remove"/>`+
+                            `</query>`+
+                        `</iq>`);
                     done();
                 });
             }));
@@ -851,9 +851,9 @@
 
                     expect(window.confirm).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq type='set' xmlns='jabber:client'>"+
-                            "<query xmlns='jabber:iq:roster'><item jid='max.frankfurter@localhost' subscription='remove'/></query>"+
-                        "</iq>");
+                        `<iq type="set" xmlns="jabber:client">`+
+                            `<query xmlns="jabber:iq:roster"><item jid="max.frankfurter@localhost" subscription="remove"/></query>`+
+                        `</iq>`);
                     expect(contact.removeFromRoster).toHaveBeenCalled();
                     expect($(_converse.rosterview.el).find(".open-chat:contains('"+name+"')").length).toEqual(0);
                     done();

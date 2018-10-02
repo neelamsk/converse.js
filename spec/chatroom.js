@@ -221,8 +221,8 @@
                     _converse.connection._dataRecv(test_utils.createRequest(presence));
                     expect(_converse.connection.sendIQ).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='room@conference.example.org' type='get' xmlns='jabber:client' id='"+IQ_id+
-                        "'><query xmlns='http://jabber.org/protocol/muc#owner'/></iq>"
+                        `<iq id="${IQ_id}" to="room@conference.example.org" type="get" xmlns="jabber:client">`+
+                        `<query xmlns="http://jabber.org/protocol/muc#owner"/></iq>`
                     );
                     var node = Strophe.xmlHtmlNode(
                        '<iq xmlns="jabber:client"'+
@@ -403,9 +403,9 @@
                      * </iq>
                      */
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#owner'><x xmlns='jabber:x:data' type='submit'/>"+
-                        "</query></iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#owner"><x type="submit" xmlns="jabber:x:data"/>`+
+                        `</query></iq>`);
                     done();
                 }).catch(_.partial(_converse.log, _, Strophe.LogLevel.FATAL));
             }));
@@ -882,9 +882,9 @@
                     *  </iq>
                     */
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='coven@chat.shakespeare.lit' type='get' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#owner'/>"+
-                        "</iq>");
+                        `<iq id="`+IQ_id+`" to="coven@chat.shakespeare.lit" type="get" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#owner"/>`+
+                        `</iq>`);
 
                     /* Server responds with the configuration form.
                     * See: // http://xmpp.org/extensions/xep-0045.html#example-165
@@ -1403,11 +1403,12 @@
                         expect(window.prompt).toHaveBeenCalled();
                         expect(view.model.directInvite).toHaveBeenCalled();
                         expect(sent_stanza.toLocaleString()).toBe(
-                            "<message from='dummy@localhost/resource' to='felix.amsel@localhost' id='" +
-                                    sent_stanza.nodeTree.getAttribute('id') +
-                                    "' xmlns='jabber:client'>"+
-                                "<x xmlns='jabber:x:conference' jid='lounge@localhost' reason='Please join!'/>"+
-                            "</message>"
+                            `<message from="dummy@localhost/resource" `+
+                                    `id="${sent_stanza.nodeTree.getAttribute("id")}" `+
+                                    `to="felix.amsel@localhost" `+
+                                    `xmlns="jabber:client">`+
+                                `<x jid="lounge@localhost" reason="Please join!" xmlns="jabber:x:conference"/>`+
+                            `</message>`
                         );
                     }
                     done();
@@ -2380,13 +2381,13 @@
                     expect(view.showErrorMessage.calls.count()).toBe(2);
                     // Check that the member list now gets updated
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item affiliation='owner' jid='annoyingGuy'>"+
-                                    "<reason>You&apos;re responsible</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item affiliation="owner" jid="annoyingGuy">`+
+                                    `<reason>You&apos;re responsible</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                     presence = $pres({
                             'from': 'lounge@localhost/annoyingGuy',
@@ -2461,13 +2462,13 @@
                     expect(view.model.setAffiliation).toHaveBeenCalled();
                     // Check that the member list now gets updated
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item affiliation='outcast' jid='annoyingGuy'>"+
-                                    "<reason>You&apos;re annoying</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item affiliation="outcast" jid="annoyingGuy">`+
+                                    `<reason>You&apos;re annoying</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                     presence = $pres({
                             'from': 'lounge@localhost/annoyingGuy',
@@ -2541,13 +2542,13 @@
                     expect(view.showErrorMessage.calls.count()).toBe(1);
                     expect(view.modifyRole).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item nick='annoyingGuy' role='none'>"+
-                                    "<reason>You&apos;re annoying</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item nick="annoyingGuy" role="none">`+
+                                    `<reason>You&apos;re annoying</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                     /* <presence
                      *     from='harfleur@chat.shakespeare.lit/pistol'
@@ -2645,13 +2646,13 @@
                     expect(view.showErrorMessage.calls.count()).toBe(1);
                     expect(view.modifyRole).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item nick='trustworthyguy' role='moderator'>"+
-                                    "<reason>You&apos;re trustworthy</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item nick="trustworthyguy" role="moderator">`+
+                                    `<reason>You&apos;re trustworthy</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                    /* <presence
                     *     from='coven@chat.shakespeare.lit/thirdwitch'
@@ -2682,13 +2683,13 @@
                     expect(view.showChatEvent.calls.count()).toBe(1);
                     expect(view.modifyRole).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item nick='trustworthyguy' role='participant'>"+
-                                    "<reason>Perhaps not</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item nick="trustworthyguy" role="participant">`+
+                                    `<reason>Perhaps not</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                    /* <presence
                     *     from='coven@chat.shakespeare.lit/thirdwitch'
@@ -2783,13 +2784,13 @@
                     expect(view.showErrorMessage.calls.count()).toBe(1);
                     expect(view.modifyRole).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item nick='annoyingGuy' role='visitor'>"+
-                                    "<reason>You&apos;re annoying</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item nick="annoyingGuy" role="visitor">`+
+                                    `<reason>You&apos;re annoying</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                    /* <presence
                     *     from='coven@chat.shakespeare.lit/thirdwitch'
@@ -2820,13 +2821,13 @@
                     expect(view.showChatEvent.calls.count()).toBe(1);
                     expect(view.modifyRole).toHaveBeenCalled();
                     expect(sent_IQ.toLocaleString()).toBe(
-                        "<iq to='lounge@localhost' type='set' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item nick='annoyingGuy' role='participant'>"+
-                                    "<reason>Now you can talk again</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_id}" to="lounge@localhost" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item nick="annoyingGuy" role="participant">`+
+                                    `<reason>Now you can talk again</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
 
                    /* <presence
                     *     from='coven@chat.shakespeare.lit/thirdwitch'
@@ -3215,23 +3216,23 @@
                    var member_iq_id = IQ_ids.pop();
 
                    expect(sent_IQs.pop().toLocaleString()).toBe(
-                       "<iq to='coven@chat.shakespeare.lit' type='get' xmlns='jabber:client' id='"+admin_iq_id+"'>"+
-                           "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                               "<item affiliation='admin'/>"+
-                           "</query>"+
-                       "</iq>");
+                       `<iq id="${admin_iq_id}" to="coven@chat.shakespeare.lit" type="get" xmlns="jabber:client">`+
+                           `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                               `<item affiliation="admin"/>`+
+                           `</query>`+
+                       `</iq>`);
                    expect(sent_IQs.pop().toLocaleString()).toBe(
-                       "<iq to='coven@chat.shakespeare.lit' type='get' xmlns='jabber:client' id='"+owner_iq_id+"'>"+
-                           "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                               "<item affiliation='owner'/>"+
-                           "</query>"+
-                       "</iq>");
+                       `<iq id="${owner_iq_id}" to="coven@chat.shakespeare.lit" type="get" xmlns="jabber:client">`+
+                           `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                               `<item affiliation="owner"/>`+
+                           `</query>`+
+                       `</iq>`);
                    expect(sent_IQs.pop().toLocaleString()).toBe(
-                       "<iq to='coven@chat.shakespeare.lit' type='get' xmlns='jabber:client' id='"+member_iq_id+"'>"+
-                           "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                               "<item affiliation='member'/>"+
-                           "</query>"+
-                       "</iq>");
+                       `<iq id="${member_iq_id}" to="coven@chat.shakespeare.lit" type="get" xmlns="jabber:client">`+
+                           `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                               `<item affiliation="member"/>`+
+                           `</query>`+
+                       `</iq>`);
 
                    /* Now the service sends the member list to the user
                     *
@@ -3294,18 +3295,18 @@
                         )).pop(), 'nodeTree'));
                 }).then(stanza => {
                     expect(stanza.outerHTML,
-                        "<iq to='coven@chat.shakespeare.lit' type='set' xmlns='jabber:client' id='"+IQ_ids.pop()+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/muc#admin'>"+
-                                "<item affiliation='member' jid='"+invitee_jid+"'>"+
-                                    "<reason>Please join this groupchat</reason>"+
-                                "</item>"+
-                            "</query>"+
-                        "</iq>");
+                        `<iq id="${IQ_ids.pop()}" to="coven@chat.shakespeare.lit" type="set" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/muc#admin">`+
+                                `<item affiliation="member" jid="${invitee_jid}">`+
+                                    `<reason>Please join this groupchat</reason>`+
+                                `</item>`+
+                            `</query>`+
+                        `</iq>`);
                     // Finally check that the user gets invited.
                     expect(sent_stanza.toLocaleString()).toBe( // Strophe adds the xmlns attr (although not in spec)
-                        "<message from='dummy@localhost/resource' to='"+invitee_jid+"' id='"+sent_id+"' xmlns='jabber:client'>"+
-                            "<x xmlns='jabber:x:conference' jid='coven@chat.shakespeare.lit' reason='Please join this groupchat'/>"+
-                        "</message>"
+                        `<message from="dummy@localhost/resource" id="${sent_id}" to="${invitee_jid}" xmlns="jabber:client">`+
+                            `<x jid="coven@chat.shakespeare.lit" reason="Please join this groupchat" xmlns="jabber:x:conference"/>`+
+                        `</message>`
                     );
                     done();
                 }).catch(_.partial(_converse.log, _, Strophe.LogLevel.FATAL));
@@ -3443,9 +3444,9 @@
                     return test_utils.waitUntil(() => _converse.chatboxes.length);
                 }).then(() => {
                     expect(sent_stanza.toLocaleString()).toBe(
-                        "<iq to='chat.shakespear.lit' from='dummy@localhost/resource' type='get' xmlns='jabber:client' id='"+IQ_id+"'>"+
-                            "<query xmlns='http://jabber.org/protocol/disco#items'/>"+
-                        "</iq>"
+                        `<iq from="dummy@localhost/resource" id="${IQ_id}" to="chat.shakespear.lit" type="get" xmlns="jabber:client">`+
+                            `<query xmlns="http://jabber.org/protocol/disco#items"/>`+
+                        `</iq>`
                     );
 
                     var iq = $iq({
